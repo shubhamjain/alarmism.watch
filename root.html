@@ -1,0 +1,96 @@
+<html><head>
+    <link rel="stylesheet" type="text/css" href="./assets/tailwind.css">
+    <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@200;400;700&amp;display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: 'Catamaran', sans-serif;
+            font-weight: 200;
+        }
+
+        *[aria-label] > span {
+            border-bottom: 1px dotted;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto px-3">
+        <h1 class="text-5xl font-bold mt-12 tracking-tight text-orange-400">alarmism.watch</h1>
+        <div class="max-w-3xl text-lg font-medium text-gray-300">
+            <p>
+                Every day we are warned about the imminent threats concerning climate, technology, economy, or society.
+                "We are in an economic bubble," or "Humanity faces mass-extinction in 20 years."
+            </p>
+            
+            <p class="mt-4">
+                No doubt, there should be valid concerns about the future, but we never revisit these gloomy
+                predictions, even when scores of them have failed to materialize. 
+            </p>
+
+            <p class="mt-4">
+                I don't intend to make a political statement, however I want to track
+                these claims. 
+            </p>
+        </div>
+        <div class="my-10 overflow-auto">
+            <table class="w-full js-sort-table" style="min-width: 700px;">
+                <thead>
+                    <tr class="text-md border-b-2 border-gray-800 py-4">
+                        <th class="py-4 cursor-pointer w-1/3 sm:w-1/2" >Prediction</th>
+                        <th class="py-4 cursor-pointer">Status</th>
+                        <th class="py-4 cursor-pointer">Category</th>
+                        <th class="py-4 cursor-pointer">Made About</th>
+                        <th class="py-4 cursor-pointer">Made In</th>
+                </tr></thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td class="max-w-sm py-4 text-lg pr-2">
+
+                                <span>
+                                    {{ item.headline | safe }}
+                                </span>
+                                <a href="{{ item.link }}" class="text-blue-600 text-sm font-bold">
+                                    Link
+                                </a>
+                        </td>
+                                            
+                        <td  class="text-center {% if item.status_comment %}hint--bottom hint--medium{% endif %}"
+                            style="display: table-cell;"
+                            {% if item.status_comment %}
+                                aria-label="{{ item.status_comment }}"
+                            {% endif %}>
+
+                        {% if item.status == 'Failed' %}
+                            <span class="font-bold text-red-600">Failed</span>
+                        {% elif item.status == 'Correct' %}
+                            <span class="font-bold text-green-600">Correct</span>
+                        {% else %}
+                            <span class="font-bold text-yellow-700">Awaited</span>
+                        {% endif %}
+                        
+                        </td>
+                        <td class="text-center">{{ item.category }}</td>
+                        <td class="text-center">{{ item.about_year }}</td>
+                        <td class="text-center">{{ item.year }}</td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div class="flex justify-between mx-auto border-t-2 pt-4 pb-12 border-gray-800 font-medium">
+            <p class="text-sm">
+                Last Updated: {{ last_modified }}
+            </p>
+            <p class="text-sm">
+                Made by: <a href="https://twitter.com/@shubhamjainco" class="text-blue-600">@shubhamjainco</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="/assets/sorttable.js"></script>
+</body>
+</html>

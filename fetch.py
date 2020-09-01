@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from jinja2 import Template
 from datetime import datetime
 
+import sh
 import mistune
 
 load_dotenv()
@@ -69,6 +70,14 @@ with open("root.html", "r") as f:
 
 with open("index.html", "w") as f:
     f.write(tmpl.render(items=arr, last_modified=ts.strftime("%b %d, %Y")))
+
+
+sh.jq(sh.purgecss([
+    "--css",
+    "assets/tailwind.css",
+    "--content",
+    "index.html"
+]), "-r", ".[].css", _out="assets/build.css")
 
     
 

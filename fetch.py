@@ -26,37 +26,42 @@ arr = []
 curr_about = ''
 
 for block in doomsday.children:
-    dict_to_push = {}
 
-    if (isinstance(block, SubheaderBlock)):
-        curr_about = block.title
+    try:
+        dict_to_push = {}
 
-    if (isinstance(block, BulletedListBlock)):
-        _text = block.title
-        
-        year = re.search('^\[(.*?)\]', _text)
-        link = re.search('\[Link\]\((.*?)\)', _text)
-        headline = re.search('^\[.*?\](.*?)\(.*\)', _text)
+        if (isinstance(block, SubheaderBlock)):
+            curr_about = block.title
 
-        dict_to_push['year'] = year.group(1)
-        dict_to_push['link'] = link.group(1)
-        dict_to_push['headline'] = mistune.html(headline.group(1)).replace("<p>", "").replace("</p>", "")
-        dict_to_push['about_year'] = curr_about
-        dict_to_push['status'] = 'Failed'
+        if (isinstance(block, BulletedListBlock)):
+            _text = block.title
+            
+            year = re.search('^\[(.*?)\]', _text)
+            link = re.search('\[Link\]\((.*?)\)', _text)
+            headline = re.search('^\[.*?\](.*?)\(.*\)', _text)
 
-        for _block in block.children:
-            groups = re.search('^(.*?)\:(.*?)(\|(.*))?$', _block.title).groups()
+            dict_to_push['year'] = year.group(1)
+            dict_to_push['link'] = link.group(1)
+            dict_to_push['headline'] = mistune.html(headline.group(1)).replace("<p>", "").replace("</p>", "")
+            dict_to_push['about_year'] = curr_about
+            dict_to_push['status'] = 'Failed'
 
-            if (groups[0] == "Category"):
-                dict_to_push['category'] = groups[1].strip()
+            for _block in block.children:
+                groups = re.search('^(.*?)\:(.*?)(\|(.*))?$', _block.title).groups()
 
-            if (groups[0] == "Status"):
-                dict_to_push['status'] = groups[1].strip()
+                if (groups[0] == "Category"):
+                    dict_to_push['category'] = groups[1].strip()
 
-                if groups[2]:
-                    dict_to_push['status_comment'] = groups[3].strip()
-        
-        arr.append(dict_to_push)
+                if (groups[0] == "Status"):
+                    dict_to_push['status'] = groups[1].strip()
+
+                    if groups[2]:
+                        dict_to_push['status_comment'] = groups[3].strip()
+            
+            arr.append(dict_to_push)
+    except:
+        print(block)
+        raise("fuck you")
 
 with open("root.html", "r") as f:
     html = f.read()

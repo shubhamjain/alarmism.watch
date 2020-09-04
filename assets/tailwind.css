@@ -658,4 +658,4 @@
   text-shadow: initial;
   box-shadow: initial; }
 
-.toFixed thead th { position: sticky; top: 0; box-shadow: inset 0 1px 0 transparent, inset 0 -3px 0 #485261; }
+.toFixed thead th { position: sticky; top: 0; box-shadow: inset 0 1px 0 transparent, inset 0 -3px 0 #485261; z-index: 100; }

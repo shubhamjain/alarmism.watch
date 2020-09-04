@@ -54,6 +54,10 @@
                 I don't intend to make a political statement, however I want to track
                 these claims to hold them accountable.
             </p>
+
+            <p class="mt-4">
+                <strong>Note</strong>: In case of no specific timeframe, I have assumed generous amount of years for the prediction to work out or fail.
+            </p>
         </div>
         <div class="my-8 toFixed overflow-auto sm:overflow-visible">
             <span class="mb-4 bg-gray-800 inline-block px-4 py-2 rounded font-medium">
@@ -76,8 +80,8 @@
                                 <span>
                                     {{ item.headline | safe }}
                                 </span>
-                                <a href="{{ item.link }}" class="text-blue-600 text-sm font-bold">
-                                    Link
+                                <a href="{{ item.link }}" class="text-blue-600 text-sm font-bold" target="_blank">
+                                    Source
                                 </a>
                         </td>
                                             
@@ -87,10 +91,12 @@
                                 aria-label="{{ item.status_comment }}"
                             {% endif %}>
 
-                        {% if item.status == 'Failed' %}
-                            <span class="font-bold text-red-600">Failed</span>
-                        {% elif item.status == 'Correct' %}
-                            <span class="font-bold text-green-600">Correct</span>
+                        {% if item.status == 'Failed' or
+                            item.status == 'Very Unlikely' or
+                            item.status == 'Unlikely' %}
+                            <span class="font-bold text-red-600">{{ item.status }}</span>
+                        {% elif item.status == 'Correct' or item.status == 'Likely' %}
+                            <span class="font-bold text-green-600">{{ item.status }}</span>
                         {% else %}
                             <span class="font-bold text-yellow-700">Awaited</span>
                         {% endif %}

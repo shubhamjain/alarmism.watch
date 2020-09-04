@@ -7,7 +7,9 @@ from jinja2 import Template
 from datetime import datetime
 
 import sh
+import hashlib
 import mistune
+import mimetypes
 
 load_dotenv()
 
@@ -41,8 +43,19 @@ for block in doomsday.children:
             link = re.search('\[Link\]\((.*?)\)', _text)
             headline = re.search('^\[.*?\](.*?)\(.*\)', _text)
 
+            mime = mimetypes.guess_type(link.group(1))[0] or ''
+
+            if ('image' in mime or 'pdf' in mime):
+                _hash = hashlib.md5(link.group(1).encode()).hexdigest()
+
+                ext = link.group(1).split('.')[-1]
+                sh.wget("-O", "assets/sources/%s.%s" % (_hash, ext), link.group(1))
+                
+                dict_to_push['link'] = "assets/sources/%s.%s" % (_hash, ext)
+            else:
+                dict_to_push['link'] = link.group(1)
+
             dict_to_push['year'] = year.group(1)
-            dict_to_push['link'] = link.group(1)
             dict_to_push['headline'] = mistune.html(headline.group(1)).replace("<p>", "").replace("</p>", "")
             dict_to_push['about_year'] = curr_about
             dict_to_push['status'] = 'Failed'

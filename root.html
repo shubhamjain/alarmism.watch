@@ -39,7 +39,12 @@
 </head>
 <body class="bg-gray-900 text-white">
     <div class="container mx-auto px-3">
-        <h1 class="text-5xl font-bold mt-12 tracking-tight text-orange-400">alarmism.watch</h1>
+        <div class="flex mt-12 justify-between items-baseline border-b mb-8 border-gray-700">
+            <h1 class="text-5xl font-bold tracking-tight text-orange-400">alarmism.watch</h1>
+            <div class="text-lg">
+                <a class="text-white inline-block mr-4 font-bold cursor-pointer" target="_blank" href="https://twitter.com/alarmismwatch">Twitter</a>
+            </div>
+        </div>
         <div class="max-w-3xl text-lg font-medium text-gray-300">
             <p>
                 Every day we are warned about the imminent threats concerning climate, technology, economy, or society.
@@ -53,8 +58,7 @@
 
             <p class="mt-4">
                 I don't intend to make a political statement, however I want to track
-                these claims to hold them accountable. In some cases when no specific timeframe
-                was given, I have assumed generous amount of years for the prediction to work out or fail.
+                these claims to hold them accountable.
             </p>
         </div>
         <div class="my-8 toFixed overflow-auto sm:overflow-visible">
@@ -75,12 +79,14 @@
                     <tr>
                         <td class="max-w-sm py-4 text-lg pr-2">
 
-                                <span>
-                                    {{ item.headline | safe }}
-                                </span>
-                                <a href="{{ item.link }}" class="text-blue-600 text-sm font-bold" target="_blank">
-                                    Source
-                                </a>
+                            <span>
+                                {{ item.headline | safe }}
+                            </span>
+            
+                            <a href="{{ item.link }}" class="inline-block text-blue-600 text-sm font-bold mr-3" target="_blank">
+                                Source
+                            </a>
+                           
                         </td>
                                             
                         <td  class="text-center {% if item.status_comment %}hint--bottom hint--medium{% endif %}"

@@ -49,7 +49,11 @@ for block in doomsday.children:
                 _hash = hashlib.md5(link.group(1).encode()).hexdigest()
 
                 ext = link.group(1).split('.')[-1]
-                sh.wget("-O", "assets/sources/%s.%s" % (_hash, ext), link.group(1))
+
+                try:
+                    sh.wget("-O", "assets/sources/%s.%s" % (_hash, ext), link.group(1))
+                except:
+                    print("%s is not available" % (link.group(1)))
                 
                 dict_to_push['link'] = "assets/sources/%s.%s" % (_hash, ext)
             else:

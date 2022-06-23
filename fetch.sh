@@ -17,4 +17,4 @@ jinja2 root.html <(echo "$FORMATTED_JSON") --format=json > index.html
 
 git add .
 git commit -m "New commit"
-git push or
+git push origin
